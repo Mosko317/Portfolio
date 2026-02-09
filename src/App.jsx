@@ -76,7 +76,7 @@ export default function App() {
 
   // Configuration for deployment
   const cvFileName = "EyalMoskovitchCV.pdf";
-  const repoName = 'Portfolio'; // Updated repository name
+  const repoName = 'Portfolio'; // Updated to match your exact casing (capital P)
   const isGitHubPages = window.location.hostname.includes('github.io');
   const cvPath = isGitHubPages ? `/${repoName}/${cvFileName}` : `/${cvFileName}`;
 
@@ -504,7 +504,6 @@ export default function App() {
                         </span>
                       </div>
                       
-                      {/* Robust Company & Location Info Row for Mobile & Desktop */}
                       <div className="flex flex-wrap items-center gap-2 text-xs md:text-base text-slate-400 font-medium uppercase tracking-widest leading-relaxed">
                         <span className="shrink-0">{exp.company}</span>
                         <span className="flex items-center justify-center w-4 h-4 text-slate-600 font-bold">•</span>
