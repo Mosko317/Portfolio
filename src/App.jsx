@@ -54,20 +54,27 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Path logic for local vs GitHub Pages
-  const cvFileName = "EyalMoskovitchCV.pdf";
+  // Note: Your file in public is "Eyal Moskovitch CV MotionGraphics.pdf"
+  const cvFileName = "Eyal Moskovitch CV MotionGraphics.pdf";
   const isGitHubPages = window.location.hostname.includes('github.io');
   const repoName = 'eyal-portfolio'; 
   const cvPath = isGitHubPages ? `/${repoName}/${cvFileName}` : `/${cvFileName}`;
 
   useEffect(() => {
-    // Increased sensitivity: background shows after 10px instead of 50px
-    const handleScroll = () => setScrolled(window.scrollY > 10);
+    const handleScroll = () => {
+        setScrolled(window.scrollY > 20);
+    };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Prevent background scroll when menu or video is open
   useEffect(() => {
-    document.body.style.overflow = (selectedVideo || mobileMenuOpen) ? 'hidden' : 'unset';
+    if (selectedVideo || mobileMenuOpen) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'unset';
+    }
   }, [selectedVideo, mobileMenuOpen]);
 
   const portfolioData = [
@@ -184,11 +191,20 @@ export default function App() {
     "Israel Aerospace Industries", "Bezeq International"
   ];
 
-  const NavLinks = ({ onClick }) => (
+  const handleNavLinkClick = (e, id) => {
+    e.preventDefault();
+    setMobileMenuOpen(false); // Close menu immediately
+    const element = document.getElementById(id);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const NavLinks = () => (
     <>
-      <a href="#about" onClick={onClick} className="hover:text-purple-400 transition-colors py-2 md:py-0">About</a>
-      <a href="#portfolio" onClick={onClick} className="hover:text-purple-400 transition-colors py-2 md:py-0">Portfolio</a>
-      <a href="#experience" onClick={onClick} className="hover:text-purple-400 transition-colors py-2 md:py-0">Experience</a>
+      <a href="#about" onClick={(e) => handleNavLinkClick(e, 'about')} className="hover:text-purple-400 transition-colors py-4 md:py-0">About</a>
+      <a href="#portfolio" onClick={(e) => handleNavLinkClick(e, 'portfolio')} className="hover:text-purple-400 transition-colors py-4 md:py-0">Portfolio</a>
+      <a href="#experience" onClick={(e) => handleNavLinkClick(e, 'experience')} className="hover:text-purple-400 transition-colors py-4 md:py-0">Experience</a>
     </>
   );
 
@@ -209,8 +225,8 @@ export default function App() {
       </style>
 
       {/* Navigation */}
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/95 backdrop-blur-md border-b border-white/5 py-4' : 'bg-transparent py-8'}`}>
-        <div className="container mx-auto px-6 flex justify-between items-center">
+      <nav className={`fixed w-full z-[100] transition-all duration-300 ${scrolled || mobileMenuOpen ? 'bg-slate-950/95 backdrop-blur-md border-b border-white/5 py-4' : 'bg-transparent py-8'}`}>
+        <div className="container mx-auto px-6 flex justify-between items-center relative z-[110]">
           <div className="text-xl md:text-2xl font-black tracking-tighter bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">
             EYAL MOSKOVITCH.
           </div>
@@ -221,7 +237,7 @@ export default function App() {
           </div>
 
           <div className="hidden md:block">
-            <a href="#contact" className="px-6 py-2.5 rounded-full bg-white text-slate-950 hover:bg-purple-400 hover:text-white transition-all font-bold text-sm tracking-wide uppercase">
+            <a href="#contact" onClick={(e) => handleNavLinkClick(e, 'contact')} className="px-6 py-2.5 rounded-full bg-white text-slate-950 hover:bg-purple-400 hover:text-white transition-all font-bold text-sm tracking-wide uppercase">
               LET'S TALK
             </a>
           </div>
@@ -230,19 +246,20 @@ export default function App() {
           <button 
             className="md:hidden p-2 text-white hover:text-purple-400 transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle Menu"
           >
             {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
 
-        {/* Mobile Menu Overlay */}
-        <div className={`fixed inset-0 top-[72px] bg-slate-950/98 backdrop-blur-xl z-40 transition-all duration-500 md:hidden ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-          <div className="flex flex-col items-center justify-center h-full space-y-8 text-2xl font-bold uppercase tracking-widest">
-            <NavLinks onClick={() => setMobileMenuOpen(false)} />
+        {/* Mobile Menu Overlay - Fixed Z-index and visibility logic */}
+        <div className={`fixed inset-0 bg-slate-950 z-[105] md:hidden flex flex-col items-center justify-center transition-all duration-500 ease-in-out ${mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
+          <div className="flex flex-col items-center space-y-8 text-2xl font-bold uppercase tracking-widest pt-20">
+            <NavLinks />
             <a 
               href="#contact" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-8 py-3 rounded-full bg-purple-600 text-white font-black text-lg"
+              onClick={(e) => handleNavLinkClick(e, 'contact')}
+              className="px-10 py-4 rounded-full bg-purple-600 text-white font-black text-lg shadow-lg shadow-purple-500/20"
             >
               LET'S TALK
             </a>
@@ -282,7 +299,7 @@ export default function App() {
               
               <RevealOnScroll delay={400}>
                 <div className="flex flex-wrap gap-5 pt-4 justify-start">
-                  <a href="#portfolio" className="px-8 py-4 bg-purple-600 text-white rounded-lg font-bold text-sm uppercase tracking-wider hover:bg-purple-700 transition-all hover:scale-105 shadow-lg shadow-purple-900/30 flex items-center gap-3">
+                  <a href="#portfolio" onClick={(e) => handleNavLinkClick(e, 'portfolio')} className="px-8 py-4 bg-purple-600 text-white rounded-lg font-bold text-sm uppercase tracking-wider hover:bg-purple-700 transition-all hover:scale-105 shadow-lg shadow-purple-900/30 flex items-center gap-3">
                     View Projects <ChevronRight size={18} />
                   </a>
                   <a 
@@ -530,7 +547,7 @@ export default function App() {
 
       {/* Video Modal */}
       {selectedVideo && (
-        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/95 backdrop-blur-xl p-4 md:p-10">
+        <div className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-black/95 backdrop-blur-xl p-4 md:p-10">
           <div className="relative w-full max-w-6xl flex flex-col items-center">
             <button 
               onClick={() => setSelectedVideo(null)}
