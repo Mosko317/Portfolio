@@ -282,7 +282,6 @@ export default function App() {
 
       {/* Full Screen Mobile Menu Overlay */}
       <div className={`fixed inset-0 bg-slate-950 z-[110] transition-all duration-300 md:hidden flex flex-col items-center justify-center ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-        {/* Close Button Inside the Overlay */}
         <button 
           onClick={() => setMobileMenuOpen(false)}
           className="absolute top-6 right-6 p-3 text-white bg-white/5 rounded-full border border-white/10 transition-transform active:scale-90"
@@ -487,7 +486,7 @@ export default function App() {
           <div className="space-y-0">
             {experiences.map((exp, index) => (
               <RevealOnScroll key={index} delay={index * 100}>
-                <div className={`group relative py-8 ${index !== experiences.length - 1 ? 'border-b border-white/5' : ''}`}>
+                <div className={`group relative py-6 md:py-8 ${index !== experiences.length - 1 ? 'border-b border-white/5' : ''}`}>
                   <button 
                     onClick={() => setOpenExperience(openExperience === index ? null : index)}
                     className="w-full flex flex-row items-start text-left gap-4 md:gap-6 group"
@@ -497,15 +496,19 @@ export default function App() {
                     </div>
 
                     <div className="flex-1">
-                      <div className="flex flex-wrap items-center gap-x-4 mb-1">
-                        <h3 className="text-xl md:text-3xl font-bold text-white group-hover:text-purple-400 transition-colors uppercase tracking-tight">{exp.role}</h3>
-                        <span className="text-sm md:text-lg font-black text-purple-400 whitespace-nowrap">
+                      <div className="flex flex-wrap items-center gap-x-3 md:gap-x-4 mb-1">
+                        <h3 className="text-lg sm:text-xl md:text-3xl font-bold text-white group-hover:text-purple-400 transition-colors uppercase tracking-tight">{exp.role}</h3>
+                        <span className="text-xs sm:text-sm md:text-lg font-black text-purple-400 whitespace-nowrap">
                           {exp.period}
                         </span>
                       </div>
-                      <h4 className="text-sm md:text-md text-slate-400 font-medium flex items-center gap-2 opacity-80 uppercase tracking-widest">
-                        {exp.company} <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-slate-700"></span> <span className="text-xs">{exp.location}</span>
-                      </h4>
+                      
+                      {/* Company & Location Info Row */}
+                      <div className="flex flex-wrap items-center gap-2 text-xs md:text-md text-slate-400 font-medium opacity-80 uppercase tracking-widest leading-relaxed">
+                        <span className="shrink-0">{exp.company}</span>
+                        <span className="flex items-center justify-center w-4 h-4 text-slate-600">•</span>
+                        <span className="shrink-0">{exp.location}</span>
+                      </div>
                     </div>
                   </button>
                   
