@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { 
   Play, X, Mail, Linkedin, Youtube, Download, ChevronRight, 
   CheckCircle2, Plus, Minus, Phone, MapPin, Menu, 
-  Palette, Box, Cpu, Laptop, Layers, Zap
+  Palette, Box, Cpu, Laptop, Layers, Zap, Boxes, ImagePlay
 } from 'lucide-react';
 
 /* --- UTILITIES & ANIMATION COMPONENTS --- */
@@ -43,6 +43,27 @@ const RevealOnScroll = ({ children, delay = 0, className = "" }) => {
     </div>
   );
 };
+
+/* --- CUSTOM ICONS --- */
+const SparkleIcon = ({ size = 20, className = "" }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+    <path d="M5 3v4" />
+    <path d="M19 17v4" />
+    <path d="M3 5h4" />
+    <path d="M17 19h4" />
+  </svg>
+);
 
 /* --- MAIN APP COMPONENT --- */
 
@@ -165,14 +186,14 @@ export default function App() {
     },
     {
       title: "Animation & Rigging",
-      icon: <Layers size={20} className="text-pink-400" />,
+      icon: <ImagePlay size={20} className="text-pink-400" />,
       skills: [
         { name: "Spine2D", percent: "85%" },
       ]
     },
     {
-      title: "Enhancement, 3D & Technical",
-      icon: <Zap size={20} className="text-blue-400" />,
+      title: "Enhancement & Technical",
+      icon: <SparkleIcon size={20} className="text-blue-400" />,
       skills: [
         { name: "AI-Assisted Workflows", percent: "65%" },
         { name: "3D Modeling", percent: "60%" },
@@ -250,7 +271,7 @@ export default function App() {
 
           {/* Mobile Toggle Button */}
           <button 
-            className="md:hidden relative z-[120] p-2 text-white bg-white/10 rounded-lg backdrop-blur-md"
+            className="md:hidden relative z-[120] p-2 text-white bg-white/10 rounded-lg backdrop-blur-md transition-transform active:scale-95"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -259,11 +280,20 @@ export default function App() {
         </div>
       </nav>
 
-      {/* Full Screen Mobile Menu Overlay - MOVED OUTSIDE NAV TO FIX Z-INDEX & SCROLLING ISSUES */}
+      {/* Full Screen Mobile Menu Overlay */}
       <div className={`fixed inset-0 bg-slate-950 z-[110] transition-all duration-300 md:hidden flex flex-col items-center justify-center ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+        {/* Close Button Inside the Overlay */}
+        <button 
+          onClick={() => setMobileMenuOpen(false)}
+          className="absolute top-6 right-6 p-3 text-white bg-white/5 rounded-full border border-white/10 transition-transform active:scale-90"
+        >
+          <X size={28} />
+        </button>
+
         <div className="absolute top-6 left-6 text-xl font-black tracking-tighter bg-gradient-to-r from-purple-400 to-red-500 bg-clip-text text-transparent">
           EYAL MOSKOVITCH.
         </div>
+        
         <div className={`flex flex-col items-center space-y-4 text-center font-bold uppercase tracking-widest transition-transform duration-500 ${mobileMenuOpen ? 'translate-y-0' : 'translate-y-10'}`}>
           <NavLinks mobile />
           <a 
