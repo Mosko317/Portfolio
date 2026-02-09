@@ -52,11 +52,14 @@ export default function App() {
   const [openExperience, setOpenExperience] = useState(0);
 
   /**
-   * UPDATED FILENAME:
-   * Matching your new space-free filename for better compatibility.
+   * ROBUST GITHUB PAGES PATH RESOLUTION:
+   * GitHub Pages serves from /repo-name/, so a simple "/" points to the wrong place.
+   * This logic checks if we are on GitHub and prepends the folder name if needed.
    */
   const cvFileName = "EyalMoskovitchCV.pdf";
-  const cvPath = `/${cvFileName}`;
+  const isGitHubPages = window.location.hostname.includes('github.io');
+  const repoName = 'eyal-portfolio'; 
+  const cvPath = isGitHubPages ? `/${repoName}/${cvFileName}` : `/${cvFileName}`;
 
   useEffect(() => {
     const handleScroll = () => {
