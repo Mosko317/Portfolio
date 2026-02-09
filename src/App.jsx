@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Play, X, Mail, Linkedin, Youtube, Download, ChevronRight, 
-  CheckCircle2, Plus, Minus, Phone, MapPin, ExternalLink
+  CheckCircle2, Plus, Minus, Phone, MapPin, Menu, 
+  Palette, Box, Cpu, Laptop, Layers, Zap
 } from 'lucide-react';
 
 /* --- UTILITIES & ANIMATION COMPONENTS --- */
@@ -46,39 +47,28 @@ const RevealOnScroll = ({ children, delay = 0, className = "" }) => {
 /* --- MAIN APP COMPONENT --- */
 
 export default function App() {
-  /**
-   * INITIAL FILTER STATE:
-   * Changed from 'All' to 'Gaming' so the portfolio loads with gaming projects first.
-   */
   const [activeTab, setActiveTab] = useState('Gaming');
-  
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [scrolled, setScrolled] = useState(false);
   const [openExperience, setOpenExperience] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  /**
-   * ROBUST GITHUB PAGES PATH RESOLUTION:
-   */
+  // Path logic for local vs GitHub Pages
   const cvFileName = "EyalMoskovitchCV.pdf";
   const isGitHubPages = window.location.hostname.includes('github.io');
   const repoName = 'eyal-portfolio'; 
   const cvPath = isGitHubPages ? `/${repoName}/${cvFileName}` : `/${cvFileName}`;
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+    // Increased sensitivity: background shows after 10px instead of 50px
+    const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
-    if (selectedVideo) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [selectedVideo]);
+    document.body.style.overflow = (selectedVideo || mobileMenuOpen) ? 'hidden' : 'unset';
+  }, [selectedVideo, mobileMenuOpen]);
 
   const portfolioData = [
     { title: "Boinkers Ad Penguins", id: "diovI-ORqiw", categories: ['Gaming', 'Ads'] },
@@ -157,16 +147,34 @@ export default function App() {
     }
   ];
 
-  const skillSets = [
-    { name: "After Effects", level: "Expert", percent: "100%" },
-    { name: "Premiere Pro", level: "Expert", percent: "100%" },
-    { name: "Photoshop", level: "Expert", percent: "100%" },
-    { name: "Illustrator", level: "Expert", percent: "100%" },
-    { name: "InDesign", level: "Expert", percent: "100%" },
-    { name: "Spine2D", level: "Advanced", percent: "85%" },
-    { name: "AI Tools", level: "Intermediate", percent: "65%" },
-    { name: "3D Modeling", level: "Intermediate", percent: "60%" },
-    { name: "HTML", level: "Intermediate", percent: "65%" }
+  const skillCategories = [
+    {
+      title: "Core Motion & Design",
+      icon: <Palette size={20} className="text-purple-400" />,
+      skills: [
+        { name: "After Effects", percent: "100%" },
+        { name: "Premiere Pro", percent: "100%" },
+        { name: "Photoshop", percent: "100%" },
+        { name: "Illustrator", percent: "100%" },
+        { name: "InDesign", percent: "100%" },
+      ]
+    },
+    {
+      title: "Animation & Rigging",
+      icon: <Layers size={20} className="text-pink-400" />,
+      skills: [
+        { name: "Spine2D", percent: "85%" },
+      ]
+    },
+    {
+      title: "Enhancement, 3D & Technical",
+      icon: <Zap size={20} className="text-blue-400" />,
+      skills: [
+        { name: "AI-Assisted Workflows", percent: "65%" },
+        { name: "3D Modeling", percent: "60%" },
+        { name: "HTML", percent: "65%" }
+      ]
+    }
   ];
 
   const companiesList = [
@@ -176,13 +184,13 @@ export default function App() {
     "Israel Aerospace Industries", "Bezeq International"
   ];
 
-  const handleNavClick = (e, id) => {
-    e.preventDefault();
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const NavLinks = ({ onClick }) => (
+    <>
+      <a href="#about" onClick={onClick} className="hover:text-purple-400 transition-colors py-2 md:py-0">About</a>
+      <a href="#portfolio" onClick={onClick} className="hover:text-purple-400 transition-colors py-2 md:py-0">Portfolio</a>
+      <a href="#experience" onClick={onClick} className="hover:text-purple-400 transition-colors py-2 md:py-0">Experience</a>
+    </>
+  );
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-purple-500 selection:text-white overflow-x-hidden">
@@ -201,19 +209,44 @@ export default function App() {
       </style>
 
       {/* Navigation */}
-      <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-slate-950/90 backdrop-blur-md border-b border-white/5 py-4' : 'bg-transparent py-8'}`}>
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/95 backdrop-blur-md border-b border-white/5 py-4' : 'bg-transparent py-8'}`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
-          <div className="text-2xl font-black tracking-tighter bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">
+          <div className="text-xl md:text-2xl font-black tracking-tighter bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">
             EYAL MOSKOVITCH.
           </div>
+          
+          {/* Desktop Nav */}
           <div className="hidden md:flex space-x-10 text-sm font-semibold tracking-wide uppercase">
-            <a href="#about" onClick={(e) => handleNavClick(e, 'about')} className="hover:text-purple-400 transition-colors">About</a>
-            <a href="#portfolio" onClick={(e) => handleNavClick(e, 'portfolio')} className="hover:text-purple-400 transition-colors">Portfolio</a>
-            <a href="#experience" onClick={(e) => handleNavClick(e, 'experience')} className="hover:text-purple-400 transition-colors">Experience</a>
+            <NavLinks />
           </div>
-          <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')} className="hidden md:block px-6 py-2.5 rounded-full bg-white text-slate-950 hover:bg-purple-400 hover:text-white transition-all font-bold text-sm tracking-wide">
-            LET'S TALK
-          </a>
+
+          <div className="hidden md:block">
+            <a href="#contact" className="px-6 py-2.5 rounded-full bg-white text-slate-950 hover:bg-purple-400 hover:text-white transition-all font-bold text-sm tracking-wide uppercase">
+              LET'S TALK
+            </a>
+          </div>
+
+          {/* Mobile Toggle */}
+          <button 
+            className="md:hidden p-2 text-white hover:text-purple-400 transition-colors"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        <div className={`fixed inset-0 top-[72px] bg-slate-950/98 backdrop-blur-xl z-40 transition-all duration-500 md:hidden ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+          <div className="flex flex-col items-center justify-center h-full space-y-8 text-2xl font-bold uppercase tracking-widest">
+            <NavLinks onClick={() => setMobileMenuOpen(false)} />
+            <a 
+              href="#contact" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-8 py-3 rounded-full bg-purple-600 text-white font-black text-lg"
+            >
+              LET'S TALK
+            </a>
+          </div>
         </div>
       </nav>
 
@@ -249,14 +282,13 @@ export default function App() {
               
               <RevealOnScroll delay={400}>
                 <div className="flex flex-wrap gap-5 pt-4 justify-start">
-                  <a href="#portfolio" onClick={(e) => handleNavClick(e, 'portfolio')} className="px-8 py-4 bg-purple-600 text-white rounded-lg font-bold text-sm uppercase tracking-wider hover:bg-purple-700 transition-all hover:scale-105 shadow-lg shadow-purple-900/30 flex items-center gap-3">
+                  <a href="#portfolio" className="px-8 py-4 bg-purple-600 text-white rounded-lg font-bold text-sm uppercase tracking-wider hover:bg-purple-700 transition-all hover:scale-105 shadow-lg shadow-purple-900/30 flex items-center gap-3">
                     View Projects <ChevronRight size={18} />
                   </a>
                   <a 
                     href={cvPath}
                     target="_blank"
                     rel="noopener noreferrer"
-                    download={cvFileName}
                     className="px-8 py-4 bg-transparent border border-slate-600 text-white rounded-lg font-bold text-sm uppercase tracking-wider hover:bg-white hover:text-slate-900 transition-all flex items-center gap-3"
                   >
                     Download CV <Download size={18} />
@@ -309,7 +341,7 @@ export default function App() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredVideos.map((video, index) => (
-              <RevealOnScroll key={video.id} delay={index * 100}>
+              <RevealOnScroll key={index} delay={index * 100}>
                 <div 
                   onClick={() => setSelectedVideo(video)}
                   className="group cursor-pointer relative rounded-2xl overflow-hidden bg-slate-950 border border-white/5 shadow-2xl transition-all duration-500 hover:-translate-y-2"
@@ -346,25 +378,38 @@ export default function App() {
         </div>
       </section>
 
-      {/* Expertise & Tools */}
+      {/* Skills & Tools */}
       <section className="py-24 bg-slate-950 relative z-10">
-        <div className="container mx-auto px-6 max-w-5xl">
+        <div className="container mx-auto px-6 max-w-6xl">
           <RevealOnScroll>
-            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-center text-white mb-16">Expertise & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Tools</span></h2>
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-center text-white mb-20">Skills & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Tools</span></h2>
           </RevealOnScroll>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12">
-            {skillSets.map((skill, i) => (
-              <RevealOnScroll key={i} delay={i * 50}>
-                <div className="group text-left">
-                  <div className="flex justify-between items-end mb-3">
-                    <h3 className="text-lg font-bold text-white group-hover:text-purple-400 transition-colors uppercase tracking-tight">{skill.name}</h3>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">{skill.level}</span>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 items-start">
+            {skillCategories.map((cat, catIdx) => (
+              <RevealOnScroll key={catIdx} delay={catIdx * 100}>
+                <div className="bg-white/5 p-8 rounded-[2rem] border border-white/5 h-full transition-all hover:bg-white/10 hover:border-white/10 group">
+                  <div className="flex items-center gap-4 mb-8">
+                    <div className="p-3 bg-slate-900 rounded-2xl border border-white/10 group-hover:scale-110 transition-transform">
+                      {cat.icon}
+                    </div>
+                    <h3 className="text-lg font-bold text-white uppercase tracking-tight leading-tight">{cat.title}</h3>
                   </div>
-                  <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-1000 ease-out"
-                      style={{ width: skill.percent }}
-                    ></div>
+                  
+                  <div className="space-y-8">
+                    {cat.skills.map((skill, i) => (
+                      <div key={i} className="group/item">
+                        <div className="flex justify-between items-end mb-2">
+                          <h4 className="text-sm font-bold text-slate-200 group-hover/item:text-purple-400 transition-colors uppercase tracking-widest">{skill.name}</h4>
+                        </div>
+                        <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-1000 ease-out"
+                            style={{ width: skill.percent }}
+                          ></div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </RevealOnScroll>
@@ -434,12 +479,12 @@ export default function App() {
         <div className="relative flex overflow-x-hidden py-10">
           <div className="animate-marquee whitespace-nowrap flex gap-12 md:gap-24 items-center">
             {companiesList.map((company, i) => (
-              <div key={`c1-${i}`} className="text-xl md:text-2xl font-black text-white/10 hover:text-purple-500 transition-colors cursor-default uppercase tracking-tighter">
+              <div key={`c1-${i}`} className="text-xl md:text-2xl font-black text-white/30 hover:text-purple-500 transition-colors cursor-default uppercase tracking-tighter">
                 {company}
               </div>
             ))}
             {companiesList.map((company, i) => (
-              <div key={`c2-${i}`} className="text-xl md:text-2xl font-black text-white/10 hover:text-purple-500 transition-colors cursor-default uppercase tracking-tighter">
+              <div key={`c2-${i}`} className="text-xl md:text-2xl font-black text-white/30 hover:text-purple-500 transition-colors cursor-default uppercase tracking-tighter">
                 {company}
               </div>
             ))}
