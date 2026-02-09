@@ -45,11 +45,19 @@ const RevealOnScroll = ({ children, delay = 0, className = "" }) => {
 
 /* --- MAIN APP COMPONENT --- */
 
-const App = () => {
+export default function App() {
   const [activeTab, setActiveTab] = useState('All');
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [scrolled, setScrolled] = useState(false);
   const [openExperience, setOpenExperience] = useState(0);
+
+  /**
+   * IMPORTANT: Ensure the file "Eyal Moskovitch CV MotionGraphics.pdf" 
+   * is located inside your project's 'public' folder. 
+   * The filename is case-sensitive.
+   */
+  const cvFileName = "Eyal Moskovitch CV MotionGraphics.pdf";
+  const cvPath = "/Eyal Moskovitch CV MotionGraphics.pdf";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -156,7 +164,7 @@ const App = () => {
     { name: "HTML", level: "Intermediate", percent: "65%" }
   ];
 
-  const companies = [
+  const companiesList = [
     "Blizzard", "Playtika", "Playdemic", "Huuuge games", "Citi Bank", "SDG&E", 
     "T-Mobile", "Epic games", "Acid Labs", "Microsoft", "Chase bank", 
     "Israeli Police Department", "Israel Railways", "Mey Eden", 
@@ -177,12 +185,6 @@ const App = () => {
       <style>
         {`
           html { scroll-behavior: smooth; }
-          .gradient-text {
-            background: linear-gradient(to right, #a78bfa, #ec4899, #fb923c);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-          }
           @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -217,7 +219,7 @@ const App = () => {
 
         <div className="container mx-auto px-6">
           <div className="flex flex-col-reverse md:flex-row items-center gap-16 md:gap-8">
-            <div className="flex-1 space-y-8 z-10">
+            <div className="flex-1 space-y-8 z-10 text-left">
               <RevealOnScroll delay={100}>
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm text-purple-400 text-xs font-bold tracking-widest uppercase">
                   <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
@@ -226,9 +228,9 @@ const App = () => {
               </RevealOnScroll>
               
               <RevealOnScroll delay={200}>
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tight text-white">
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tight text-white uppercase">
                   BRINGING <br/>
-                  <span className="gradient-text">STORIES</span> <br/>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">STORIES</span> <br/>
                   TO LIFE THROUGH <br/>
                   MOTION
                 </h1>
@@ -241,11 +243,17 @@ const App = () => {
               </RevealOnScroll>
               
               <RevealOnScroll delay={400}>
-                <div className="flex flex-wrap gap-5 pt-4">
+                <div className="flex flex-wrap gap-5 pt-4 justify-start">
                   <a href="#portfolio" onClick={(e) => handleNavClick(e, 'portfolio')} className="px-8 py-4 bg-purple-600 text-white rounded-lg font-bold text-sm uppercase tracking-wider hover:bg-purple-700 transition-all hover:scale-105 shadow-lg shadow-purple-900/30 flex items-center gap-3">
                     View Projects <ChevronRight size={18} />
                   </a>
-                  <a href="/Eyal Moskovitch CV MotionGraphics.pdf" download className="px-8 py-4 bg-transparent border border-slate-600 text-white rounded-lg font-bold text-sm uppercase tracking-wider hover:bg-white hover:text-slate-900 transition-all flex items-center gap-3">
+                  <a 
+                    href={cvPath}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download={cvFileName}
+                    className="px-8 py-4 bg-transparent border border-slate-600 text-white rounded-lg font-bold text-sm uppercase tracking-wider hover:bg-white hover:text-slate-900 transition-all flex items-center gap-3"
+                  >
                     Download CV <Download size={18} />
                   </a>
                 </div>
@@ -255,16 +263,12 @@ const App = () => {
             <div className="flex-1 flex justify-center md:justify-end relative">
               <RevealOnScroll delay={300} className="relative z-10">
                  <div className="relative w-72 h-72 md:w-[450px] md:h-[450px] group">
-                    <div className="absolute -inset-2 bg-gradient-to-tr from-purple-600 via-pink-600 to-blue-600 rounded-full opacity-75 blur-md group-hover:opacity-100 transition-all duration-700 animate-[spin_8s_linear_infinite]"></div>
+                    <div className="absolute -inset-2 bg-gradient-to-tr from-purple-600 via-pink-600 to-blue-600 rounded-full opacity-75 blur-md group-hover:opacity-100 transition-all duration-700"></div>
                     <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/20 shadow-2xl bg-slate-900 flex items-center justify-center">
                       <img 
                         src="image_e39e8d.png" 
                         alt="Eyal Moskovitch" 
                         className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
-                        onError={(e) => {
-                          e.target.onerror = null; 
-                          e.target.src = "https://ui-avatars.com/api/?name=Eyal+Moskovitch&background=0D8ABC&color=fff&size=512";
-                        }}
                       />
                     </div>
                  </div>
@@ -279,7 +283,7 @@ const App = () => {
         <div className="container mx-auto px-6">
           <RevealOnScroll>
             <div className="text-center mb-20">
-              <h2 className="text-4xl md:text-6xl font-black mb-8 tracking-tight uppercase">SELECTED <span className="gradient-text">WORKS</span></h2>
+              <h2 className="text-4xl md:text-6xl font-black mb-8 tracking-tight uppercase">SELECTED <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">WORKS</span></h2>
               <div className="flex flex-wrap justify-center gap-3">
                 {categories.map((tab) => (
                   <button
@@ -306,17 +310,10 @@ const App = () => {
                   className="group cursor-pointer relative rounded-2xl overflow-hidden bg-slate-950 border border-white/5 shadow-2xl transition-all duration-500 hover:-translate-y-2"
                 >
                   <div className="relative aspect-video w-full overflow-hidden">
-                    {video.vertical && (
-                      <div 
-                        className="absolute inset-0 bg-cover bg-center blur-xl opacity-40 scale-110" 
-                        style={{ backgroundImage: `url(https://img.youtube.com/vi/${video.id}/maxresdefault.jpg)` }}
-                      />
-                    )}
-                    
                     <img 
                       src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`} 
                       alt={video.title}
-                      className={`relative z-10 w-full h-full transition-transform duration-700 group-hover:scale-105 ${video.vertical ? 'object-contain' : 'object-cover'}`}
+                      className={`relative z-10 w-full h-full transition-transform duration-700 group-hover:scale-105 ${video.vertical ? 'object-contain bg-black' : 'object-cover'}`}
                     />
                     
                     <div className="absolute top-4 left-4 z-20 flex gap-2">
@@ -345,15 +342,15 @@ const App = () => {
       </section>
 
       {/* Expertise & Tools */}
-      <section id="experience" className="py-24 bg-slate-950 relative z-10">
+      <section className="py-24 bg-slate-950 relative z-10">
         <div className="container mx-auto px-6 max-w-5xl">
           <RevealOnScroll>
-            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-center text-white mb-16">Expertise & <span className="gradient-text">Tools</span></h2>
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight text-center text-white mb-16">Expertise & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Tools</span></h2>
           </RevealOnScroll>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12">
             {skillSets.map((skill, i) => (
               <RevealOnScroll key={i} delay={i * 50}>
-                <div className="group">
+                <div className="group text-left">
                   <div className="flex justify-between items-end mb-3">
                     <h3 className="text-lg font-bold text-white group-hover:text-purple-400 transition-colors uppercase tracking-tight">{skill.name}</h3>
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">{skill.level}</span>
@@ -372,11 +369,11 @@ const App = () => {
       </section>
 
       {/* Career Journey */}
-      <section className="py-32 bg-slate-900/50 border-t border-white/5 relative overflow-hidden">
+      <section id="experience" className="py-32 bg-slate-950 border-t border-white/5 relative overflow-hidden">
         <div className="container mx-auto px-6 max-w-5xl">
           <RevealOnScroll>
-            <div className="mb-16">
-              <h2 className="text-4xl md:text-6xl font-black mb-4 text-white tracking-tight uppercase">CAREER <span className="gradient-text">JOURNEY</span></h2>
+            <div className="mb-16 text-left">
+              <h2 className="text-4xl md:text-6xl font-black mb-4 text-white tracking-tight uppercase">CAREER <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">JOURNEY</span></h2>
               <p className="text-slate-400 text-lg max-w-xl">A professional timeline of my experience in motion graphics and creative production.</p>
             </div>
           </RevealOnScroll>
@@ -396,7 +393,7 @@ const App = () => {
                     <div className="flex-1">
                       <div className="flex flex-wrap items-center gap-x-4 mb-1">
                         <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-purple-400 transition-colors uppercase tracking-tight">{exp.role}</h3>
-                        <span className="text-lg font-black bg-gradient-to-r from-purple-400 via-pink-500 to-orange-500 bg-clip-text text-transparent">
+                        <span className="text-lg font-black text-purple-400">
                           {exp.period}
                         </span>
                       </div>
@@ -431,12 +428,12 @@ const App = () => {
       <section className="py-20 bg-slate-950 overflow-hidden relative border-t border-white/5">
         <div className="relative flex overflow-x-hidden py-10">
           <div className="animate-marquee whitespace-nowrap flex gap-12 md:gap-24 items-center">
-            {companies.map((company, i) => (
+            {companiesList.map((company, i) => (
               <div key={`c1-${i}`} className="text-xl md:text-2xl font-black text-white/10 hover:text-purple-500 transition-colors cursor-default uppercase tracking-tighter">
                 {company}
               </div>
             ))}
-            {companies.map((company, i) => (
+            {companiesList.map((company, i) => (
               <div key={`c2-${i}`} className="text-xl md:text-2xl font-black text-white/10 hover:text-purple-500 transition-colors cursor-default uppercase tracking-tighter">
                 {company}
               </div>
@@ -446,11 +443,11 @@ const App = () => {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-32 bg-slate-950 relative border-t border-white/5">
+      <footer id="contact" className="py-32 bg-slate-950 relative border-t border-white/5">
         <div className="container mx-auto px-6 max-w-5xl">
           <RevealOnScroll>
-            <div className="bg-gradient-to-tr from-purple-900/10 to-blue-900/10 rounded-[3rem] p-8 md:p-16 border border-white/5 text-center relative overflow-hidden">
-               <h2 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-tight">READY TO <span className="gradient-text">CREATE?</span></h2>
+            <div className="bg-white/5 rounded-[3rem] p-8 md:p-16 border border-white/5 text-center relative overflow-hidden">
+               <h2 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-tight">READY TO <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">CREATE?</span></h2>
                
                <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-12 text-slate-300">
                   <div className="flex items-center gap-2">
@@ -470,9 +467,6 @@ const App = () => {
                   <a href="https://linkedin.com/in/eyalmosko" target="_blank" rel="noreferrer" className="px-8 py-4 bg-slate-800 text-white rounded-xl font-bold uppercase tracking-wider hover:bg-blue-600 transition-all flex items-center justify-center gap-2">
                     <Linkedin size={18} /> LinkedIn
                   </a>
-                  <a href="https://youtube.com/@eyalmosko" target="_blank" rel="noreferrer" className="px-8 py-4 bg-slate-800 text-white rounded-xl font-bold uppercase tracking-wider hover:bg-red-600 transition-all flex items-center justify-center gap-2">
-                    <Youtube size={18} /> YouTube
-                  </a>
                </div>
             </div>
           </RevealOnScroll>
@@ -482,7 +476,7 @@ const App = () => {
             </p>
           </div>
         </div>
-      </section>
+      </footer>
 
       {/* Video Modal */}
       {selectedVideo && (
@@ -491,34 +485,20 @@ const App = () => {
             <button 
               onClick={() => setSelectedVideo(null)}
               className="absolute -top-12 right-0 p-3 text-white hover:text-purple-400 transition-colors"
-              title="Close"
             >
               <X size={32} />
             </button>
-            
-            <div className={`w-full bg-black shadow-2xl ring-1 ring-white/10 rounded-2xl overflow-hidden ${selectedVideo.vertical ? 'aspect-[9/16] max-w-[45vh]' : 'aspect-video'}`}>
+            <div className={`w-full bg-black shadow-2xl rounded-2xl overflow-hidden ${selectedVideo.vertical ? 'aspect-[9/16] max-w-[45vh]' : 'aspect-video'}`}>
               <iframe
                 width="100%"
                 height="100%"
-                src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1&mute=0&modestbranding=1&showinfo=0&origin=${encodeURIComponent(window.location.origin)}`}
+                src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1`}
                 title={selectedVideo.title}
                 frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 className="w-full h-full"
               ></iframe>
-            </div>
-
-            <div className="mt-6 flex flex-col items-center gap-2">
-              <h3 className="text-white font-bold text-lg text-center">{selectedVideo.title}</h3>
-              <a 
-                href={`https://www.youtube.com/watch?v=${selectedVideo.id}`} 
-                target="_blank" 
-                rel="noreferrer"
-                className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm font-medium"
-              >
-                Watch on YouTube <ExternalLink size={14} />
-              </a>
             </div>
           </div>
           <div className="absolute inset-0 -z-10" onClick={() => setSelectedVideo(null)}></div>
@@ -526,6 +506,4 @@ const App = () => {
       )}
     </div>
   );
-};
-
-export default App;
+}
