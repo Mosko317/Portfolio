@@ -52,12 +52,12 @@ export default function App() {
   const [openExperience, setOpenExperience] = useState(0);
 
   /**
-   * IMPORTANT: Ensure the file "Eyal Moskovitch CV MotionGraphics.pdf" 
-   * is located inside your project's 'public' folder. 
-   * The filename is case-sensitive.
+   * ROBUST PATH RESOLUTION:
+   * We use a relative path with a leading slash which is the standard 
+   * for accessing the 'public' folder in modern web environments.
    */
   const cvFileName = "Eyal Moskovitch CV MotionGraphics.pdf";
-  const cvPath = "/Eyal Moskovitch CV MotionGraphics.pdf";
+  const cvPath = `/${cvFileName}`;
 
   useEffect(() => {
     const handleScroll = () => {
