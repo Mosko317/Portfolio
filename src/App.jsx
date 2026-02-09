@@ -74,10 +74,10 @@ export default function App() {
   const [openExperience, setOpenExperience] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Updated to the correct filename
+  // Configuration for deployment
   const cvFileName = "EyalMoskovitchCV.pdf";
+  const repoName = 'Portfolio'; // Updated repository name
   const isGitHubPages = window.location.hostname.includes('github.io');
-  const repoName = 'eyal-portfolio'; 
   const cvPath = isGitHubPages ? `/${repoName}/${cvFileName}` : `/${cvFileName}`;
 
   useEffect(() => {
