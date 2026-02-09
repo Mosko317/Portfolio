@@ -46,15 +46,18 @@ const RevealOnScroll = ({ children, delay = 0, className = "" }) => {
 /* --- MAIN APP COMPONENT --- */
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('All');
+  /**
+   * INITIAL FILTER STATE:
+   * Changed from 'All' to 'Gaming' so the portfolio loads with gaming projects first.
+   */
+  const [activeTab, setActiveTab] = useState('Gaming');
+  
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [scrolled, setScrolled] = useState(false);
   const [openExperience, setOpenExperience] = useState(0);
 
   /**
    * ROBUST GITHUB PAGES PATH RESOLUTION:
-   * GitHub Pages serves from /repo-name/, so a simple "/" points to the wrong place.
-   * This logic checks if we are on GitHub and prepends the folder name if needed.
    */
   const cvFileName = "EyalMoskovitchCV.pdf";
   const isGitHubPages = window.location.hostname.includes('github.io');
