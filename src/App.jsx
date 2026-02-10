@@ -249,13 +249,14 @@ export default function App() {
           .animate-marquee {
             animation: marquee 40s linear infinite;
           }
-          /* CRITICAL FIX FOR CLIPPING */
-          .safe-text-rendering {
-            display: inline-block;
+          /* GLOBAL FIX FOR HEADING CLIPPING */
+          .safe-heading {
             overflow: visible !important;
-            padding-bottom: 0.15em; /* Extra space for descenders and glyphs like ? */
-            padding-right: 0.05em;
-            line-height: 1.15;      /* Slightly more breathing room */
+            padding-top: 0.1em;
+            padding-bottom: 0.2em;
+            margin-top: -0.1em;
+            margin-bottom: -0.2em;
+            line-height: 1.1;
           }
         `}
       </style>
@@ -323,11 +324,11 @@ export default function App() {
               </RevealOnScroll>
               
               <RevealOnScroll delay={200}>
-                <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-normal text-white uppercase overflow-visible">
-                  <span className="safe-text-rendering">BRINGING</span> <br className="hidden md:block"/>
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 safe-text-rendering">STORIES</span> <br className="hidden md:block"/>
-                  <span className="safe-text-rendering">TO LIFE THROUGH</span> <br className="hidden md:block"/>
-                  <span className="safe-text-rendering">MOTION</span>
+                <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-normal text-white uppercase safe-heading">
+                  BRINGING <br className="hidden md:block"/>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">STORIES</span> <br className="hidden md:block"/>
+                  TO LIFE THROUGH <br className="hidden md:block"/>
+                  MOTION
                 </h1>
               </RevealOnScroll>
 
@@ -377,8 +378,8 @@ export default function App() {
         <div className="container mx-auto px-6">
           <RevealOnScroll>
             <div className="text-center mb-16 md:mb-20">
-              <h2 className="text-3xl md:text-6xl font-black mb-8 tracking-normal uppercase text-white leading-tight overflow-visible">
-                <span className="safe-text-rendering">SELECTED</span> <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 safe-text-rendering">WORKS</span>
+              <h2 className="text-3xl md:text-6xl font-black mb-8 tracking-normal uppercase text-white leading-tight safe-heading">
+                SELECTED <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">WORKS</span>
               </h2>
               <div className="flex flex-wrap justify-center gap-2 md:gap-3">
                 {categories.map((tab) => (
@@ -441,8 +442,8 @@ export default function App() {
       <section className="py-24 bg-slate-950 relative z-10">
         <div className="container mx-auto px-6 max-w-6xl">
           <RevealOnScroll>
-            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-normal text-center text-white mb-20 leading-tight overflow-visible">
-               <span className="safe-text-rendering">Skills &</span> <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 safe-text-rendering">Tools</span>
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-normal text-center text-white mb-20 leading-tight safe-heading">
+               Skills & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Tools</span>
             </h2>
           </RevealOnScroll>
           
@@ -484,8 +485,8 @@ export default function App() {
         <div className="container mx-auto px-6 max-w-5xl">
           <RevealOnScroll>
             <div className="mb-16 text-center md:text-left">
-              <h2 className="text-3xl md:text-6xl font-black mb-4 text-white tracking-normal uppercase leading-tight overflow-visible">
-                 <span className="safe-text-rendering">CAREER</span> <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 safe-text-rendering">JOURNEY</span>
+              <h2 className="text-3xl md:text-6xl font-black mb-4 text-white tracking-normal uppercase leading-tight safe-heading">
+                 CAREER <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">JOURNEY</span>
               </h2>
               <p className="text-slate-400 text-base md:text-lg max-w-xl mx-auto md:mx-0">A professional timeline of my experience in motion graphics and creative production.</p>
             </div>
@@ -563,8 +564,8 @@ export default function App() {
         <div className="container mx-auto px-6 max-w-5xl">
           <RevealOnScroll>
             <div className="bg-white/5 rounded-[2rem] md:rounded-[3rem] p-8 md:p-16 border border-white/5 text-center relative overflow-hidden">
-               <h2 className="text-3xl md:text-6xl font-black mb-6 uppercase tracking-normal text-white leading-tight overflow-visible">
-                 <span className="safe-text-rendering">READY TO</span> <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 safe-text-rendering">CREATE?</span>
+               <h2 className="text-3xl md:text-6xl font-black mb-6 uppercase tracking-normal text-white leading-tight safe-heading">
+                 READY TO <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">CREATE?</span>
                </h2>
                
                <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-12 text-slate-300">
